@@ -1,7 +1,6 @@
 package main
 
 import (
-	"Discord-test/queue"
 	"context"
 	"flag"
 	"fmt"
@@ -170,7 +169,7 @@ var (
 				msgformat += "> Fill: %v\n"
 			}
 
-			queueErr := queue.QueueAdd()
+			queueErr := QueueAdd()
 			if queueErr != "nil" {
 				s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 					// Ignore type for now, they will be discussed in "responses"

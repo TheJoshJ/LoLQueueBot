@@ -1,4 +1,4 @@
-module github.com/railwayapp/starters/examples/discordgo
+module discord-test
 
 go 1.16
 
