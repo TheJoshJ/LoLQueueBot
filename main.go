@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"discord-test/queue"
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
@@ -15,8 +16,8 @@ import (
 // Bot parameters
 var (
 	GuildID        = flag.String("guild", "", "Test guild ID. If not passed - bot registers commands globally")
-	BotToken       = flag.String("token", "bot-token", "Bot access token")
-	RemoveCommands = flag.Bool("rmcmd", true, "Remove all commands after shutdowning or not")
+	BotToken       = flag.String("token", os.Getenv("DISCORD_TOKEN"), "Bot access token")
+	RemoveCommands = flag.Bool("rmcmd", true, "Remove all commands after shutting down or not")
 )
 
 var s *discordgo.Session
@@ -169,7 +170,7 @@ var (
 				msgformat += "> Fill: %v\n"
 			}
 
-			queueErr := QueueAdd()
+			queueErr := queue.QueueAdd()
 			if queueErr != "nil" {
 				s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 					// Ignore type for now, they will be discussed in "responses"
@@ -282,13 +283,13 @@ func main() {
 
 	////establish connection to the Queue DB
 	log.Println("Attempting to establish connection to the database...")
-	conn, conErr := pgx.Connect(context.Background(), os.Getenv("postgresql://postgres:QnUrdUL30lj4lzincW9R@containers-us-west-86.railway.app:6308/railway"))
+	conn, conErr := pgx.Connect(context.Background(), os.Getenv("QUEUE_DB_URL"))
 	if conErr != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", conErr)
 		os.Exit(1)
 	}
 	if conErr == nil {
-		fmt.Fprintf(os.Stderr, "Connection established!")
+		fmt.Fprintf(os.Stderr, "Connection established!\n")
 	}
 	defer conn.Close(context.Background())
 

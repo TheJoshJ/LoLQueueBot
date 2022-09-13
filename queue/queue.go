@@ -1,6 +1,6 @@
 package queue
 
 func QueueAdd() string {
-	err := "notNil"
+	err := "nil"
 	return err
 }
