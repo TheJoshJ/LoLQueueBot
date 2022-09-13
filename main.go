@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"discord-test/queue"
+	"discord-test/redis"
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
@@ -155,7 +156,7 @@ var (
 			// When the option exists, ok = true
 			if option, ok := optionMap["gamemode"]; ok {
 				margs = append(margs, option.StringValue())
-				msgformat += "> Position 1: %s\n"
+				msgformat += "> Gamemode: %s\n"
 			}
 			if option, ok := optionMap["main"]; ok {
 				margs = append(margs, option.StringValue())
@@ -281,8 +282,8 @@ func main() {
 	defer s.Close()
 	log.Println("Commands successfully added!")
 
-	////establish connection to the Queue DB
-	log.Println("Attempting to establish connection to the database...")
+	//establish connection to the PostgreSQL DB
+	log.Println("Attempting to establish connection to the PostgreSQL database...")
 	conn, conErr := pgx.Connect(context.Background(), os.Getenv("QUEUE_DB_URL"))
 	if conErr != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", conErr)
@@ -292,6 +293,8 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Connection established!\n")
 	}
 	defer conn.Close(context.Background())
+
+	redis.Connect()
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt)
