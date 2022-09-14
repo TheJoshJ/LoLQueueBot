@@ -46,25 +46,93 @@ var (
 					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "gamemode",
 					Description: "select which gamemode you are wanting to play",
-					Required:    true,
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "normal",
+							Value: "normal",
+						},
+						{
+							Name:  "aram",
+							Value: "aram",
+						},
+						{
+							Name:  "rotating",
+							Value: "rotating",
+						},
+					},
+					Required: true,
 				},
 				{
 					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "main",
+					Name:        "primary",
 					Description: "Select your primary position",
-					Required:    true,
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "top",
+							Value: "top",
+						},
+						{
+							Name:  "jungle",
+							Value: "jungle",
+						},
+						{
+							Name:  "mid",
+							Value: "mid",
+						},
+						{
+							Name:  "bot",
+							Value: "bot",
+						},
+						{
+							Name:  "support",
+							Value: "support",
+						},
+					},
+					Required: true,
 				},
 				{
 					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "secondary",
 					Description: "Select your secondary position",
-					Required:    true,
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "top",
+							Value: "top",
+						},
+						{
+							Name:  "jungle",
+							Value: "jungle",
+						},
+						{
+							Name:  "mid",
+							Value: "mid",
+						},
+						{
+							Name:  "bot",
+							Value: "bot",
+						},
+						{
+							Name:  "support",
+							Value: "support",
+						},
+					},
+					Required: true,
 				},
 				{
 					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "fill",
 					Description: "Would you like to fill? true/false",
-					Required:    true,
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "yes",
+							Value: "yes",
+						},
+						{
+							Name:  "no",
+							Value: "no",
+						},
+					},
+					Required: true,
 				},
 			},
 		},
@@ -140,59 +208,7 @@ var (
 			s.ChannelDelete(i.ChannelID)
 		},
 		"queue": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-			// Access options in the order provided by the user.
-			options := i.ApplicationCommandData().Options
-
-			// Or convert the slice into a map
-			optionMap := make(map[string]*discordgo.ApplicationCommandInteractionDataOption, len(options))
-			for _, opt := range options {
-				optionMap[opt.Name] = opt
-			}
-			margs := make([]interface{}, 0, len(options))
-			msgformat := "You have entered the queue for the following positions:\n"
-
-			// Get the value from the option map.
-			// When the option exists, ok = true
-			if option, ok := optionMap["gamemode"]; ok {
-				margs = append(margs, option.StringValue())
-				msgformat += "> Gamemode: %s\n"
-			}
-			if option, ok := optionMap["main"]; ok {
-				margs = append(margs, option.StringValue())
-				msgformat += "> Position 1: %s\n"
-			}
-			if option, ok := optionMap["secondary"]; ok {
-				margs = append(margs, option.StringValue())
-				msgformat += "> Position 2: %s\n"
-			}
-			if opt, ok := optionMap["fill"]; ok {
-				margs = append(margs, opt.StringValue())
-				msgformat += "> Fill: %v\n"
-			}
-
-			queueErr := queue.Add(i)
-			if queueErr != nil {
-				s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-					// Ignore type for now, they will be discussed in "responses"
-					Type: discordgo.InteractionResponseChannelMessageWithSource,
-					Data: &discordgo.InteractionResponseData{
-						Flags:   discordgo.MessageFlagsEphemeral,
-						Content: fmt.Sprintf("Unable to add you to the queue at this time. Try again later."),
-					},
-				})
-			} else {
-				s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-					// Ignore type for now, they will be discussed in "responses"
-					Type: discordgo.InteractionResponseChannelMessageWithSource,
-					Data: &discordgo.InteractionResponseData{
-						Flags: discordgo.MessageFlagsEphemeral,
-						Content: fmt.Sprintf(
-							msgformat,
-							margs...,
-						),
-					},
-				})
-			}
+			queue.CommandResponse(queue.CheckCommand(queue.CommandConvert(i)), i, s)
 		},
 
 		//setup command to allow users to set up their profile from the slash command
