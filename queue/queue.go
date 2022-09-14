@@ -57,7 +57,3 @@ func ParseSlashCommand(i *discordgo.InteractionCreate) map[string]interface{} {
 
 	return options
 }
-
-func checkCommand(Command Command) bool {
-
-}
