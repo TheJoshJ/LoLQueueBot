@@ -294,7 +294,7 @@ func main() {
 
 	//establish connection to the PostgreSQL DB
 	log.Println("Attempting to establish connection to the PostgreSQL database...")
-	conn, conErr := pgx.Connect(context.Background(), os.Getenv("QUEUE_DB_URL"))
+	conn, conErr := pgx.Connect(context.Background(), os.Getenv("POSTGRES_DB_URL"))
 	if conErr != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", conErr)
 		os.Exit(1)

@@ -47,7 +47,7 @@ func CommandConvert(i *discordgo.InteractionCreate) Command {
 
 func Add(i *discordgo.InteractionCreate, args Command) {
 	jsonArgs, _ := json.Marshal(args)
-	instance.RPush(i.Member.User.ID, jsonArgs)
+	instance.Set(i.Member.User.ID, jsonArgs, -1)
 	//byteArray, err := instance.Get(i.Member.User.ID).Bytes()
 	//json.Unmarshal(byteArray, args)
 	//log.Printf("%#v", args)
