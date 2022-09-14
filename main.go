@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"discord-test/queue"
-	"discord-test/redis"
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
@@ -18,7 +17,7 @@ import (
 var (
 	GuildID        = flag.String("guild", "", "Test guild ID. If not passed - bot registers commands globally")
 	BotToken       = flag.String("token", os.Getenv("DISCORD_TOKEN"), "Bot access token")
-	RemoveCommands = flag.Bool("rmcmd", true, "Remove all commands after shutting down or not")
+	RemoveCommands = flag.Bool("rmcmd", false, "Remove all commands after shutting down or not")
 )
 
 var s *discordgo.Session
@@ -62,7 +61,7 @@ var (
 					Required:    true,
 				},
 				{
-					Type:        discordgo.ApplicationCommandOptionBoolean,
+					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "fill",
 					Description: "Would you like to fill? true/false",
 					Required:    true,
@@ -167,12 +166,12 @@ var (
 				msgformat += "> Position 2: %s\n"
 			}
 			if opt, ok := optionMap["fill"]; ok {
-				margs = append(margs, opt.BoolValue())
+				margs = append(margs, opt.StringValue())
 				msgformat += "> Fill: %v\n"
 			}
 
-			queueErr := queue.QueueAdd()
-			if queueErr != "nil" {
+			queueErr := queue.Add(i)
+			if queueErr != nil {
 				s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 					// Ignore type for now, they will be discussed in "responses"
 					Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -194,10 +193,6 @@ var (
 					},
 				})
 			}
-
-			//log.Println("command received - waiting ten seconds")
-			//time.Sleep(10 * time.Second)
-			//log.Println("10 seconds is up")
 		},
 
 		//setup command to allow users to set up their profile from the slash command
@@ -238,7 +233,6 @@ var (
 			}
 
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				// Ignore type for now, they will be discussed in "responses"
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
 					Flags: discordgo.MessageFlagsEphemeral,
@@ -294,7 +288,7 @@ func main() {
 	}
 	defer conn.Close(context.Background())
 
-	redis.Connect()
+	queue.Connect()
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt)
@@ -303,14 +297,11 @@ func main() {
 
 	if *RemoveCommands {
 		log.Println("Removing commands...")
-		// // We need to fetch the commands, since deleting requires the command ID.
-		// // We are doing this from the returned commands on line 375, because using
-		// // this will delete all the commands, which might not be desirable, so we
-		// // are deleting only the commands that we added.
-		// registeredCommands, err := s.ApplicationCommands(s.State.User.ID, *GuildID)
-		// if err != nil {
-		// 	log.Fatalf("Could not fetch registered commands: %v", err)
-		// }
+
+		registeredCommands, err := s.ApplicationCommands(s.State.User.ID, *GuildID)
+		if err != nil {
+			log.Fatalf("Could not fetch registered commands: %v", err)
+		}
 
 		for _, v := range registeredCommands {
 			err := s.ApplicationCommandDelete(s.State.User.ID, *GuildID, v.ID)
