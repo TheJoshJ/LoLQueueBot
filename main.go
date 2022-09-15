@@ -10,7 +10,6 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"time"
 )
 
 // Bot parameters
@@ -168,52 +167,25 @@ var (
 			},
 		},
 		{
-			Name: "lobby",
-			// All commands and options must have a description
-			// Commands/options without description will fail the registration
-			// of the command.
+			Name:        "lobby",
 			Description: "Create a lobby",
 		},
 		{
-			Name: "close",
-			// All commands and options must have a description
-			// Commands/options without description will fail the registration
-			// of the command.
+			Name:        "close",
 			Description: "Close your current lobby",
 		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
 		"lobby": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseChannelMessageWithSource,
-				Data: &discordgo.InteractionResponseData{
-					Flags:   discordgo.MessageFlagsEphemeral,
-					Content: fmt.Sprintf("The lobby has been created."),
-				},
-			})
-			newChan, _ := s.GuildChannelCreate(i.GuildID, "Test", 2)
-			s.ChannelMessageSend(newChan.ID, fmt.Sprintf("%s", i.Member.Mention()))
+			queue.CreateLobby(s, i)
 		},
 		"close": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseChannelMessageWithSource,
-				Data: &discordgo.InteractionResponseData{
-					Content: fmt.Sprintf("Your lobby will be deleted in 10 seconds @here."),
-				},
-			})
-			time.Sleep(10 * time.Second)
-			s.ChannelDelete(i.ChannelID)
+			queue.CloseLobby(s, i)
 		},
 		"queue": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			queue.CommandResponse(queue.CheckCommand(queue.CommandConvert(i)), i, s)
 		},
-
-		//setup command to allow users to set up their profile from the slash command
-		//Need to find out where the user information is stored within the command to pass
-		//along to the db and store the inforamtion there.
 		"setup": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			// Access options in the order provided by the user.
 			options := i.ApplicationCommandData().Options
