@@ -174,6 +174,14 @@ var (
 			Name:        "close",
 			Description: "Close your current lobby",
 		},
+		{
+			Name:        "leave",
+			Description: "Leave your current position in queue",
+		},
+		{
+			Name:        "pos",
+			Description: "Check your current position in queue",
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
@@ -186,6 +194,14 @@ var (
 		"queue": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			queue.CommandResponse(queue.CheckCommand(queue.CommandConvert(i)), i, s)
 		},
+		"leave": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			queue.Leave(s, i)
+		},
+		"pos": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			//queue.Position(s, i)
+			queue.MatchAram()
+		},
+
 		"setup": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			// Access options in the order provided by the user.
 			options := i.ApplicationCommandData().Options
@@ -268,11 +284,11 @@ func main() {
 	log.Println("Attempting to establish connection to the PostgreSQL database...")
 	conn, conErr := pgx.Connect(context.Background(), os.Getenv("POSTGRES_DB_URL"))
 	if conErr != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", conErr)
+		log.Printf("Unable to connect to PostgreSQL database: %v\n", conErr)
 		os.Exit(1)
 	}
 	if conErr == nil {
-		fmt.Fprintf(os.Stderr, "Connection established!\n")
+		log.Printf("Connected to PostgreSQL!\n")
 	}
 	defer conn.Close(context.Background())
 
