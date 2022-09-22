@@ -4,12 +4,24 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Reformatted the entire program to be more readable">
+      <change afterPath="$PROJECT_DIR$/commands/close.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commands/leave.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commands/lobby.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commands/pos.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commands/queue.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initializers/discordInit.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initializers/ginInit.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initializers/postgresInit.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/initializers/redisInit.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/variables/discordGoVars.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/queue/match.go" beforeDir="false" afterPath="$PROJECT_DIR$/queue/match.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/queue/queue.go" beforeDir="false" afterPath="$PROJECT_DIR$/queue/queue.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue/match.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue/queue.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +42,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/go.mod" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/main.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/queue/match.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/queue/queue.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/go/pkg/mod/github.com/go-redis/redis/v8@v8.11.5/options.go" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -58,6 +68,11 @@
     &quot;last_opened_file_path&quot;: &quot;C:/Users/12566&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;PLAIN_TEXT&quot;
+    ]
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -74,6 +89,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Reformatted the entire program to be more readable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reformatted the entire program to be more readable" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
