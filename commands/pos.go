@@ -1,5 +1,7 @@
 package commands
 
-func Position() {
+import "discord-test/handlers"
 
+func Position() {
+	handlers.Ping()
 }

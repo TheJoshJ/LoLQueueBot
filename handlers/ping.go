@@ -1,9 +1,16 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"log"
+	"net/http"
+)
 
-func Ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "Hello World",
-	})
+func Ping() {
+	client := http.DefaultClient
+
+	response, err := client.Post("https://api.lolqueue.com/ping", "application/json", nil)
+	if err != nil {
+		log.Fatalf("Post failed %v", err)
+	}
+	log.Println(response)
 }
