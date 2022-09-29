@@ -18,7 +18,6 @@ func main() {
 
 	//initializes all the connections
 	initializers.RedisCreateConnection()
-	go initializers.CreateGinConnection()
 
 	initializers.DiscordConnect()
 	initializers.DiscordAddHandlers(variables.CommandHandlers)

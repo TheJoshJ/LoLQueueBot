@@ -1,16 +1,21 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 )
 
 func Ping() {
+	var output map[string]string
+
 	client := http.DefaultClient
 
-	response, err := client.Post("https://api.lolqueue.com/ping", "application/json", nil)
+	r, err := client.Get("https://api.lolqueue.com/ping")
 	if err != nil {
 		log.Fatalf("Post failed %v", err)
 	}
-	log.Println(response)
+	defer r.Body.Close()
+	json.NewDecoder(r.Body).Decode(&output)
+	log.Println(output["message"])
 }
