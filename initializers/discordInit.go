@@ -5,6 +5,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"log"
 	"os"
+	"os/signal"
 )
 
 var s *discordgo.Session
@@ -34,8 +35,15 @@ func DiscordAddCommands(commands []*discordgo.ApplicationCommand) {
 		}
 		registeredCommands[i] = cmd
 	}
+
 	defer s.Close()
 	log.Println("Commands successfully added!")
+
+	//event listener
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+	log.Println("Press Ctrl+C to exit")
+	<-stop
 }
 
 func DiscordAddHandlers(commandHandlers map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate)) {

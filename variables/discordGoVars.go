@@ -2,7 +2,6 @@ package variables
 
 import (
 	"discord-test/commands"
-	"fmt"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -111,6 +110,60 @@ var (
 			},
 		},
 		{
+			Name:        "find",
+			Description: "Find a player to complete your team.",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "gamemode",
+					Description: "select which gamemode you will be playing",
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "normal",
+							Value: "normal",
+						},
+						{
+							Name:  "aram",
+							Value: "aram",
+						},
+						{
+							Name:  "rotating",
+							Value: "rotating",
+						},
+					},
+					Required: true,
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "position",
+					Description: "Select the position of the player you need.",
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "top",
+							Value: "top",
+						},
+						{
+							Name:  "jungle",
+							Value: "jungle",
+						},
+						{
+							Name:  "mid",
+							Value: "mid",
+						},
+						{
+							Name:  "bot",
+							Value: "bot",
+						},
+						{
+							Name:  "support",
+							Value: "support",
+						},
+					},
+					Required: true,
+				},
+			},
+		},
+		{
 			Name:        "setup",
 			Description: "Set up your profile before you queue up",
 			Options: []*discordgo.ApplicationCommandOption{
@@ -173,55 +226,13 @@ var (
 			commands.Leave(s, i)
 		},
 		"pos": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-			//queue.Position(s, i)
 			commands.Position()
 		},
-
+		"find": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			commands.Find()
+		},
 		"setup": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-			// Access options in the order provided by the user.
-			options := i.ApplicationCommandData().Options
-
-			// Or convert the slice into a map
-			optionMap := make(map[string]*discordgo.ApplicationCommandInteractionDataOption, len(options))
-			for _, opt := range options {
-				optionMap[opt.Name] = opt
-			}
-			// This example stores the provided arguments in an []interface{}
-			// which will be used to format the bot's response
-			margs := make([]interface{}, 0, len(options))
-			msgformat := "You have updated your profile! " +
-				"Here is the information that you entered:\n"
-
-			// Get the value from the option map.
-			// When the option exists, ok = true
-			if option, ok := optionMap["username"]; ok {
-				margs = append(margs, option.StringValue())
-				msgformat += "> Username: %s\n"
-			}
-			if option, ok := optionMap["server"]; ok {
-				margs = append(margs, option.StringValue())
-				msgformat += "> Server: %s\n"
-			}
-			if option, ok := optionMap["rank"]; ok {
-				margs = append(margs, option.StringValue())
-				msgformat += "> Rank: %s\n"
-			}
-			if option, ok := optionMap["position"]; ok {
-				margs = append(margs, option.StringValue())
-				msgformat += "> Rank: %s\n"
-			}
-
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseChannelMessageWithSource,
-				Data: &discordgo.InteractionResponseData{
-					Flags: discordgo.MessageFlagsEphemeral,
-					Content: fmt.Sprintf(
-						msgformat,
-						margs...,
-					),
-				},
-			})
-
+			commands.Setup(s, i)
 		},
 	}
 )

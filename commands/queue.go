@@ -41,39 +41,37 @@ func Queue(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		initializers.Instance.Del()
 	}
 
-	cmdOptions := i.ApplicationCommandData().Options
-	optionMap := make(map[string]*discordgo.ApplicationCommandInteractionDataOption, len(cmdOptions))
-	for _, opt := range cmdOptions {
-		optionMap[opt.Name] = opt
-	}
-	msgformat := "You have entered the queue for the following positions:\n"
-	margs := make([]interface{}, 0, len(cmdOptions))
+	//cmdOptions := i.ApplicationCommandData().Options
+	//optionMap := make(map[string]*discordgo.ApplicationCommandInteractionDataOption, len(cmdOptions))
+	//for _, opt := range cmdOptions {
+	//	optionMap[opt.Name] = opt
+	//}
+	//msgformat := "You have entered the queue for the following positions:\n"
+	//margs := make([]interface{}, 0, len(cmdOptions))
+	//
+	//if option, ok := optionMap["gamemode"]; ok {
+	//	margs = append(margs, option.StringValue())
+	//	msgformat += "> Gamemode: %s\n"
+	//}
+	//if option, ok := optionMap["primary"]; ok {
+	//	margs = append(margs, option.StringValue())
+	//	msgformat += "> Primary: %s\n"
+	//}
+	//if option, ok := optionMap["secondary"]; ok {
+	//	margs = append(margs, option.StringValue())
+	//	msgformat += "> Secondary: %s\n"
+	//}
+	//if opt, ok := optionMap["fill"]; ok {
+	//	margs = append(margs, opt.StringValue())
+	//	msgformat += "> Fill: %v\n"
+	//}
 
-	if option, ok := optionMap["gamemode"]; ok {
-		margs = append(margs, option.StringValue())
-		msgformat += "> Gamemode: %s\n"
-	}
-	if option, ok := optionMap["primary"]; ok {
-		margs = append(margs, option.StringValue())
-		msgformat += "> Primary: %s\n"
-	}
-	if option, ok := optionMap["secondary"]; ok {
-		margs = append(margs, option.StringValue())
-		msgformat += "> Secondary: %s\n"
-	}
-	if opt, ok := optionMap["fill"]; ok {
-		margs = append(margs, opt.StringValue())
-		msgformat += "> Fill: %v\n"
-	}
 	if allowed {
 		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
-				Flags: discordgo.MessageFlagsEphemeral,
-				Content: fmt.Sprintf(
-					msgformat,
-					margs...,
-				),
+				Flags:   discordgo.MessageFlagsEphemeral,
+				Content: fmt.Sprintf("> Gamemode: %s\n> Primary: %s\n> Secondary: %s\n> Fill: %v\n", args.Gamemode, args.Primary, args.Secondary, args.Fill),
 			},
 		})
 

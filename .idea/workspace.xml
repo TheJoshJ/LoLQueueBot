@@ -5,23 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Reformatted the entire program to be more readable">
-      <change afterPath="$PROJECT_DIR$/commands/close.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/commands/leave.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/commands/lobby.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/commands/pos.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/commands/queue.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/initializers/discordInit.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/initializers/ginInit.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/initializers/postgresInit.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/initializers/redisInit.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/variables/discordGoVars.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commands/find.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commands/setup.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/Post_Queue.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/load.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/ping.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/queue.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/queue.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initializers/discordInit.go" beforeDir="false" afterPath="$PROJECT_DIR$/initializers/discordInit.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initializers/ginInit.go" beforeDir="false" afterPath="$PROJECT_DIR$/initializers/ginInit.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initializers/postgresInit.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/queue/match.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/queue/queue.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/variables/discordGoVars.go" beforeDir="false" afterPath="$PROJECT_DIR$/variables/discordGoVars.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
