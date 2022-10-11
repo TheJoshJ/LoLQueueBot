@@ -15,7 +15,7 @@ func Setup(profile models.Profile) {
 	data.Add("username", profile.Username)
 	data.Add("discordid", profile.DiscordID)
 
-	resp, err := http.PostForm("http://api.lolqueue.com/user", data)
+	resp, err := http.PostForm("https://api.lolqueue.com/user", data)
 	if err != nil {
 		log.Printf("fatal err 1 %v", err)
 	}
