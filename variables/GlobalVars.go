@@ -171,26 +171,40 @@ var (
 				{
 					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "username",
-					Description: "String option",
+					Description: "Your display name in League of Legends",
 					Required:    true,
 				},
 				{
 					Type:        discordgo.ApplicationCommandOptionString,
 					Name:        "server",
-					Description: "String option",
-					Required:    true,
-				},
-				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "rank",
-					Description: "String option",
-					Required:    true,
-				},
-				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "position",
-					Description: "String option",
-					Required:    false,
+					Description: "select which server you play on",
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "NA",
+							Value: "NA",
+						},
+						{
+							Name:  "EUNE",
+							Value: "EUNE",
+						},
+						{
+							Name:  "EUW",
+							Value: "EUW",
+						},
+						{
+							Name:  "LAN",
+							Value: "LAN",
+						},
+						{
+							Name:  "LAS",
+							Value: "LAS",
+						},
+						{
+							Name:  "OCE",
+							Value: "OCE",
+						},
+					},
+					Required: true,
 				},
 			},
 		},

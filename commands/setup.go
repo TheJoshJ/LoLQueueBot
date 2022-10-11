@@ -1,49 +1,62 @@
 package commands
 
 import (
+	"discord-test/handlers"
+	"discord-test/models"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"github.com/mitchellh/mapstructure"
+	"log"
+	"strings"
 )
 
 func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	// Access options in the order provided by the user.
-	options := i.ApplicationCommandData().Options
+	var cmdErr []string
 
-	// Or convert the slice into a map
-	optionMap := make(map[string]*discordgo.ApplicationCommandInteractionDataOption, len(options))
-	for _, opt := range options {
-		optionMap[opt.Name] = opt
-	}
-	
-	margs := make([]interface{}, 0, len(options))
-	msgformat := "You have updated your profile! " +
-		"Here is the information that you entered:\n"
-
-	if option, ok := optionMap["username"]; ok {
-		margs = append(margs, option.StringValue())
-		msgformat += "> Username: %s\n"
-	}
-	if option, ok := optionMap["server"]; ok {
-		margs = append(margs, option.StringValue())
-		msgformat += "> Server: %s\n"
-	}
-	if option, ok := optionMap["rank"]; ok {
-		margs = append(margs, option.StringValue())
-		msgformat += "> Rank: %s\n"
-	}
-	if option, ok := optionMap["position"]; ok {
-		margs = append(margs, option.StringValue())
-		msgformat += "> Rank: %s\n"
+	//process the command within the interaction
+	var options = make(map[string]interface{})
+	for _, option := range i.ApplicationCommandData().Options {
+		options[option.Name] = option.Value
 	}
 
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Flags: discordgo.MessageFlagsEphemeral,
-			Content: fmt.Sprintf(
-				msgformat,
-				margs...,
-			),
-		},
-	})
+	//convert it to match the profile struct
+	var profile models.Profile
+	err := mapstructure.Decode(options, &profile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	profile.DiscordID = i.Member.User.ID
+
+	//send the post request
+	handlers.Setup(profile)
+
+	//check the response
+	//if response.StatusCode != 200 {
+	//	cmdErr = append(cmdErr, "Error posting the command to the API layer")
+	//}
+
+	//convert the slice of err to a string
+	cmdString := strings.Join(cmdErr[:], ">\n")
+
+	//reply accordingly
+	if cmdErr != nil {
+		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+			Type: discordgo.InteractionResponseChannelMessageWithSource,
+			Data: &discordgo.InteractionResponseData{
+				Flags:   discordgo.MessageFlagsEphemeral,
+				Content: fmt.Sprintf(cmdString),
+			},
+		})
+	} else {
+		{
+			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+				Type: discordgo.InteractionResponseChannelMessageWithSource,
+				Data: &discordgo.InteractionResponseData{
+					Flags:   discordgo.MessageFlagsEphemeral,
+					Content: fmt.Sprintf("You have updated your profile!"),
+				},
+			})
+
+		}
+	}
 }

@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Reformatted the entire program to be more readable">
+      <change afterPath="$PROJECT_DIR$/handlers/queue_post.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/setup_post.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/profile.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/queue.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/Post_Queue.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/load.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/ping.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/ping.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initializers/ginInit.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/queue.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/queue.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/setup.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/setup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/variables/discordGoVars.go" beforeDir="false" afterPath="$PROJECT_DIR$/variables/GlobalVars.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

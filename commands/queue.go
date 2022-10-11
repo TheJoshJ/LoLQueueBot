@@ -1,22 +1,16 @@
 package commands
 
 import (
-	"discord-test/initializers"
-	"encoding/json"
+	"discord-test/handlers"
+	"discord-test/models"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/mitchellh/mapstructure"
-	"log"
+	"strings"
 )
 
-type Command struct {
-	Gamemode  string `json: "gamemode"`
-	Primary   string `json: "primary"`
-	Secondary string `json: "secondary"`
-	Fill      string `json: "fill"`
-}
-
 func Queue(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	var cmdErr []string
 
 	//process the command within the interaction
 	var options = make(map[string]interface{})
@@ -25,81 +19,45 @@ func Queue(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 
 	//convert it to match the Command struct
-	var args Command
+	var args models.Command
 	mapstructure.Decode(options, &args)
+	args.DiscordID = i.Member.User.ID
 
 	//check to see if the command is valid
-	var allowed bool = true
-	log.Printf("%#v", args)
 	if args.Primary == args.Secondary && args.Fill == "no" {
-		allowed = false
+		cmdErr = append(cmdErr, "> Please ensure that primary and secondary roles are different if you are not willing to fill.")
 	}
 
-	//respond to the command
-	status := initializers.Instance.Get(i.Member.User.ID)
-	if status != nil {
-		initializers.Instance.Del()
+	//send the post request
+	response := handlers.Queue(args)
+
+	//check the response
+	if response.StatusCode != 200 {
+		cmdErr = append(cmdErr, "> Error posting the command to the API layer")
 	}
 
-	//cmdOptions := i.ApplicationCommandData().Options
-	//optionMap := make(map[string]*discordgo.ApplicationCommandInteractionDataOption, len(cmdOptions))
-	//for _, opt := range cmdOptions {
-	//	optionMap[opt.Name] = opt
-	//}
-	//msgformat := "You have entered the queue for the following positions:\n"
-	//margs := make([]interface{}, 0, len(cmdOptions))
-	//
-	//if option, ok := optionMap["gamemode"]; ok {
-	//	margs = append(margs, option.StringValue())
-	//	msgformat += "> Gamemode: %s\n"
-	//}
-	//if option, ok := optionMap["primary"]; ok {
-	//	margs = append(margs, option.StringValue())
-	//	msgformat += "> Primary: %s\n"
-	//}
-	//if option, ok := optionMap["secondary"]; ok {
-	//	margs = append(margs, option.StringValue())
-	//	msgformat += "> Secondary: %s\n"
-	//}
-	//if opt, ok := optionMap["fill"]; ok {
-	//	margs = append(margs, opt.StringValue())
-	//	msgformat += "> Fill: %v\n"
-	//}
+	//convert the slice of err to a string
+	cmdString := strings.Join(cmdErr[:], ">\n")
 
-	if allowed {
+	//reply accordingly
+	if cmdErr != nil {
 		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
 				Flags:   discordgo.MessageFlagsEphemeral,
-				Content: fmt.Sprintf("> Gamemode: %s\n> Primary: %s\n> Secondary: %s\n> Fill: %v\n", args.Gamemode, args.Primary, args.Secondary, args.Fill),
+				Content: fmt.Sprintf(cmdString),
 			},
 		})
-
 	} else {
-		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-				Flags:   discordgo.MessageFlagsEphemeral,
-				Content: fmt.Sprintf("Please ensure that primary and secondary roles are different if you are not willing to fill."),
-			},
-		})
-	}
+		{
+			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+				Type: discordgo.InteractionResponseChannelMessageWithSource,
+				Data: &discordgo.InteractionResponseData{
+					Flags:   discordgo.MessageFlagsEphemeral,
+					Content: fmt.Sprintf("You have queued up with the following arguments\n> Gamemode: %s\n> Primary: %s\n> Secondary: %s\n> Fill: %v\n", args.Gamemode, args.Primary, args.Secondary, args.Fill),
+				},
+			})
 
-	//add the queue to the database
-	if status != nil {
-		initializers.Instance.Del(i.Member.User.ID)
-		for _, queue := range initializers.Queues {
-			initializers.Instance.LRem(queue, -1, i.Member.User.ID)
-		}
-	}
-
-	for _, queue := range initializers.Queues {
-		if args.Gamemode == queue {
-			initializers.Instance.RPush(queue, i.Member.User.ID)
-		}
-		if args.Gamemode == "normal" {
-			jsonArgs, _ := json.Marshal(args)
-			initializers.Instance.Set(i.Member.User.ID, jsonArgs, -1)
 		}
 	}
 }
