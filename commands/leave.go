@@ -7,7 +7,7 @@ import (
 )
 
 func Leave(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	initializers.Instance.Dele(i.Member.User.ID)
+	initializers.Instance.Del(i.Member.User.ID)
 	for _, queue := range initializers.Queues {
 		initializers.Instance.LRem(queue, -1, i.Member.User.ID)
 	}

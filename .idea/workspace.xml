@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Finalized lookup command, began work on match history command">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/history.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/lookup.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/lookup.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/lookup_get.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/lookup_get.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/match_get.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/match_get.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/matchData.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/matchData.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/variables/GlobalVars.go" beforeDir="false" afterPath="$PROJECT_DIR$/variables/GlobalVars.go" afterDir="false" />
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Added match history command">
+      <change beforePath="$PROJECT_DIR$/commands/leave.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/leave.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +30,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="2EgfmxKsAOMR7TJIk085M7JTKVq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -56,6 +53,7 @@
     "go.sdk.automatically.set": "true",
     "last_opened_file_path": "/Users/joshjones",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "terminal"
   },
   "keyToStringList": {
@@ -82,7 +80,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reformatted the entire program to be more readable" />
     <MESSAGE value="Finalized lookup command, began work on match history command" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finalized lookup command, began work on match history command" />
+    <MESSAGE value="Added match history command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added match history command" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
