@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Reformatted the entire program to be more readable">
-      <change afterPath="$PROJECT_DIR$/commands/history.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/commands/lookup.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/lookup_get.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/match_get.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/lookup.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/matchData.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/setup_post.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/setup_post.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/variables/GlobalVars.go" beforeDir="false" afterPath="$PROJECT_DIR$/variables/GlobalVars.go" afterDir="false" />
-    </list>
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Finalized lookup command, began work on match history command" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +74,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reformatted the entire program to be more readable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reformatted the entire program to be more readable" />
+    <MESSAGE value="Finalized lookup command, began work on match history command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finalized lookup command, began work on match history command" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
