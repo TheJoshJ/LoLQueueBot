@@ -16,9 +16,7 @@ func init() {
 
 func main() {
 
-	//initializes all the connections
-	initializers.RedisCreateConnection()
-
+	//initializes everything associated with the discord bot
 	initializers.DiscordConnect()
 	initializers.DiscordAddHandlers(variables.CommandHandlers)
 	initializers.DiscordCreateSession()

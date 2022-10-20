@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-func Setup(profile models.Profile) {
+func Setup(profile models.Profile) []byte {
 
 	data := url.Values{}
 	data.Add("server", profile.Server)
@@ -25,6 +25,5 @@ func Setup(profile models.Profile) {
 		log.Printf("fatal err 3 %v", err)
 	}
 
-	log.Println(string(response))
-
+	return response
 }

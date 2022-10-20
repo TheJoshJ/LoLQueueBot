@@ -203,6 +203,91 @@ var (
 							Name:  "OCE",
 							Value: "OCE",
 						},
+						{
+							Name:  "BR",
+							Value: "BR",
+						},
+						{
+							Name:  "JP",
+							Value: "JP",
+						},
+						{
+							Name:  "KR",
+							Value: "KR",
+						},
+						{
+							Name:  "TR",
+							Value: "TR",
+						},
+						{
+							Name:  "RU",
+							Value: "RU",
+						},
+					},
+					Required: true,
+				},
+			},
+		},
+		{
+			Name:        "lookup",
+			Description: "Look up a users League of Legends profile",
+			Options: []*discordgo.ApplicationCommandOption{
+
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "username",
+					Description: "The desired users display name in League",
+					Required:    true,
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "server",
+					Description: "The desired users server",
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "NA",
+							Value: "NA",
+						},
+						{
+							Name:  "EUNE",
+							Value: "EUNE",
+						},
+						{
+							Name:  "EUW",
+							Value: "EUW",
+						},
+						{
+							Name:  "LAN",
+							Value: "LAN",
+						},
+						{
+							Name:  "LAS",
+							Value: "LAS",
+						},
+						{
+							Name:  "OCE",
+							Value: "OCE",
+						},
+						{
+							Name:  "BR",
+							Value: "BR",
+						},
+						{
+							Name:  "JP",
+							Value: "JP",
+						},
+						{
+							Name:  "KR",
+							Value: "KR",
+						},
+						{
+							Name:  "TR",
+							Value: "TR",
+						},
+						{
+							Name:  "RU",
+							Value: "RU",
+						},
 					},
 					Required: true,
 				},
@@ -247,6 +332,9 @@ var (
 		},
 		"setup": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			commands.Setup(s, i)
+		},
+		"lookup": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			commands.Lookup(s, i)
 		},
 	}
 )
