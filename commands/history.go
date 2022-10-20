@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"discord-test/handlers"
 	"discord-test/models"
 	"github.com/bwmarrin/discordgo"
 	"github.com/mitchellh/mapstructure"
@@ -8,8 +9,9 @@ import (
 	"strconv"
 )
 
-func History(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	matchHistory := make([]models.MatchData, 10)
+func Match(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	matchHistory := make([]models.Participants, 10)
+	var summoner models.LookupResponse
 	var options = make(map[string]interface{})
 	for _, option := range i.ApplicationCommandData().Options {
 		options[option.Name] = option.Value
@@ -23,6 +25,8 @@ func History(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 
 	//get the information from the API layer
+	matchHistory = handlers.MatchLookup(params)
+	summoner = handlers.ProfileLookup(params)
 
 	//respond to the initial lookup message
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
@@ -38,13 +42,26 @@ func History(s *discordgo.Session, i *discordgo.InteractionCreate) {
 						Width:  100,
 						Height: 100},
 					Fields: []*discordgo.MessageEmbedField{
-						{Name: "\u200B", Value: "\u200B"},
-						{Name: champions[0].ChampionName, Value: strconv.Itoa(int(champions[0].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[0].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
-						{Name: champions[1].ChampionName, Value: strconv.Itoa(int(champions[1].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[1].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
-						{Name: champions[2].ChampionName, Value: strconv.Itoa(int(champions[2].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[2].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
-						{Name: champions[3].ChampionName, Value: strconv.Itoa(int(champions[3].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[3].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
-						{Name: champions[4].ChampionName, Value: strconv.Itoa(int(champions[4].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[4].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
-						{Name: champions[5].ChampionName, Value: strconv.Itoa(int(champions[5].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[5].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
+						{Name: getResult(matchHistory[0]) + " - " + matchHistory[0].ChampionName + " - " + matchHistory[0].GameMode,
+							Value: matchHistory[0].ChampionName + " " + strconv.Itoa(matchHistory[0].Kills) + "/" + strconv.Itoa(matchHistory[0].Deaths) + "/" + strconv.Itoa(matchHistory[0].Assists)},
+						{Name: getResult(matchHistory[1]) + " - " + matchHistory[1].ChampionName + " - " + matchHistory[1].GameMode,
+							Value: matchHistory[1].ChampionName + " " + strconv.Itoa(matchHistory[1].Kills) + "/" + strconv.Itoa(matchHistory[1].Deaths) + "/" + strconv.Itoa(matchHistory[1].Assists)},
+						{Name: getResult(matchHistory[2]) + " - " + matchHistory[2].ChampionName + " - " + matchHistory[2].GameMode,
+							Value: matchHistory[2].ChampionName + " " + strconv.Itoa(matchHistory[2].Kills) + "/" + strconv.Itoa(matchHistory[2].Deaths) + "/" + strconv.Itoa(matchHistory[2].Assists)},
+						{Name: getResult(matchHistory[3]) + " - " + matchHistory[3].ChampionName + " - " + matchHistory[2].GameMode,
+							Value: matchHistory[3].ChampionName + " " + strconv.Itoa(matchHistory[3].Kills) + "/" + strconv.Itoa(matchHistory[3].Deaths) + "/" + strconv.Itoa(matchHistory[3].Assists)},
+						{Name: getResult(matchHistory[4]) + " - " + matchHistory[4].ChampionName + " - " + matchHistory[4].GameMode,
+							Value: matchHistory[4].ChampionName + " " + strconv.Itoa(matchHistory[4].Kills) + "/" + strconv.Itoa(matchHistory[4].Deaths) + "/" + strconv.Itoa(matchHistory[4].Assists)},
+						{Name: getResult(matchHistory[5]) + " - " + matchHistory[5].ChampionName + " - " + matchHistory[5].GameMode,
+							Value: matchHistory[5].ChampionName + " " + strconv.Itoa(matchHistory[5].Kills) + "/" + strconv.Itoa(matchHistory[5].Deaths) + "/" + strconv.Itoa(matchHistory[5].Assists)},
+						{Name: getResult(matchHistory[6]) + " - " + matchHistory[6].ChampionName + " - " + matchHistory[6].GameMode,
+							Value: matchHistory[6].ChampionName + " " + strconv.Itoa(matchHistory[6].Kills) + "/" + strconv.Itoa(matchHistory[6].Deaths) + "/" + strconv.Itoa(matchHistory[6].Assists)},
+						{Name: getResult(matchHistory[7]) + " - " + matchHistory[7].ChampionName + " - " + matchHistory[7].GameMode,
+							Value: matchHistory[7].ChampionName + " " + strconv.Itoa(matchHistory[7].Kills) + "/" + strconv.Itoa(matchHistory[7].Deaths) + "/" + strconv.Itoa(matchHistory[7].Assists)},
+						{Name: getResult(matchHistory[8]) + " - " + matchHistory[8].ChampionName + " - " + matchHistory[8].GameMode,
+							Value: matchHistory[8].ChampionName + " " + strconv.Itoa(matchHistory[8].Kills) + "/" + strconv.Itoa(matchHistory[8].Deaths) + "/" + strconv.Itoa(matchHistory[8].Assists)},
+						{Name: getResult(matchHistory[9]) + " - " + matchHistory[9].ChampionName + " - " + matchHistory[9].GameMode,
+							Value: matchHistory[9].ChampionName + " " + strconv.Itoa(matchHistory[9].Kills) + "/" + strconv.Itoa(matchHistory[9].Deaths) + "/" + strconv.Itoa(matchHistory[9].Assists)},
 					},
 					Image: &discordgo.MessageEmbedImage{
 						URL:    "https://cdn.discordapp.com/attachments/1019324333098803340/1032455422474469407/LoLQueue.com_2.png",
@@ -55,4 +72,11 @@ func History(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			},
 		},
 	})
+}
+
+func getResult(participants models.Participants) string {
+	if participants.Win == true {
+		return "Win"
+	}
+	return "Loss"
 }

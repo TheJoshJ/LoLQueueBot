@@ -16,7 +16,7 @@ func ProfileLookup(profile models.LookupGet) models.LookupResponse {
 	if r.StatusCode != 404 {
 		err := json.NewDecoder(r.Body).Decode(&response)
 		if err != nil {
-			log.Fatalf("error decoding response into rankedArray \n%v", err)
+			log.Printf("error decoding response into rankedArray \n%v", err)
 		}
 	}
 	return response
