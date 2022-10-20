@@ -42,6 +42,7 @@ func Match(s *discordgo.Session, i *discordgo.InteractionCreate) {
 						Width:  100,
 						Height: 100},
 					Fields: []*discordgo.MessageEmbedField{
+						{Name: "\u200B", Value: "\u200B"},
 						{Name: getResult(matchHistory[0]) + " - " + matchHistory[0].ChampionName + " - " + matchHistory[0].GameMode,
 							Value: matchHistory[0].ChampionName + " " + strconv.Itoa(matchHistory[0].Kills) + "/" + strconv.Itoa(matchHistory[0].Deaths) + "/" + strconv.Itoa(matchHistory[0].Assists)},
 						{Name: getResult(matchHistory[1]) + " - " + matchHistory[1].ChampionName + " - " + matchHistory[1].GameMode,
