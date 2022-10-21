@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Fixed a bug that caused the build to fail">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Edited formatting of match history message">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands/history.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/history.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +85,8 @@
     <MESSAGE value="Finalized lookup command, began work on match history command" />
     <MESSAGE value="Added match history command" />
     <MESSAGE value="Fixed a bug that caused the build to fail" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug that caused the build to fail" />
+    <MESSAGE value="Edited formatting of match history message" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited formatting of match history message" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

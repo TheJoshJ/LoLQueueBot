@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/bwmarrin/discordgo v0.26.1
+	github.com/clinet/discordgo-embed v0.0.0-20220113222025-bafe0c917646 // indirect
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gomodule/redigo v1.8.9 // indirect
