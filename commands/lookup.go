@@ -40,7 +40,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Embeds: []*discordgo.MessageEmbed{
 				{
 					Title:       summoner.Username + "  -  " + strconv.Itoa(summoner.Level),
-					Description: summoner.Tier + " " + summoner.Rank + " - (" + strconv.Itoa(summoner.Wins) + "/" + strconv.Itoa(summoner.Losses) + ")",
+					Description: summoner.Tier + " " + summoner.Rank + " - (" + strconv.Itoa(summoner.Wins) + "W/" + strconv.Itoa(summoner.Losses) + "L)",
 					Color:       0xffae00,
 					Thumbnail: &discordgo.MessageEmbedThumbnail{
 						URL:    "https://ddragon.leagueoflegends.com/cdn/12.20.1/img/profileicon/" + strconv.Itoa(summoner.ProfileIconId) + ".png",
