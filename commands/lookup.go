@@ -11,6 +11,7 @@ import (
 )
 
 func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	matchHistory := make([]models.Participants, 20)
 	var summoner models.LookupResponse
 	var options = make(map[string]interface{})
 	for _, option := range i.ApplicationCommandData().Options {
@@ -27,6 +28,8 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	//get the information from the API layer
 	summoner = handlers.ProfileLookup(params)
 	champions := summoner.Champions
+	matchHistory = handlers.MatchLookup(params)
+	summoner = handlers.ProfileLookup(params)
 
 	//round the champion points to the nearest 1000
 	for i, v := range summoner.Champions {
@@ -54,6 +57,27 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 						{Name: champions[3].ChampionName, Value: strconv.Itoa(int(champions[3].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[3].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: champions[4].ChampionName, Value: strconv.Itoa(int(champions[4].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[4].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: champions[5].ChampionName, Value: strconv.Itoa(int(champions[5].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[5].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
+						{Name: "\u200B", Value: "\u200B"},
+						{Name: getResult(matchHistory[0]) + " - " + matchHistory[0].GameMode,
+							Value: matchHistory[0].ChampionName + " " + strconv.Itoa(matchHistory[0].Kills) + "/" + strconv.Itoa(matchHistory[0].Deaths) + "/" + strconv.Itoa(matchHistory[0].Assists), Inline: true},
+						{Name: getResult(matchHistory[1]) + " - " + matchHistory[1].GameMode,
+							Value: matchHistory[1].ChampionName + " " + strconv.Itoa(matchHistory[1].Kills) + "/" + strconv.Itoa(matchHistory[1].Deaths) + "/" + strconv.Itoa(matchHistory[1].Assists), Inline: true},
+						{Name: getResult(matchHistory[2]) + " - " + matchHistory[2].GameMode,
+							Value: matchHistory[2].ChampionName + " " + strconv.Itoa(matchHistory[2].Kills) + "/" + strconv.Itoa(matchHistory[2].Deaths) + "/" + strconv.Itoa(matchHistory[2].Assists), Inline: true},
+						{Name: getResult(matchHistory[3]) + " - " + matchHistory[2].GameMode,
+							Value: matchHistory[3].ChampionName + " " + strconv.Itoa(matchHistory[3].Kills) + "/" + strconv.Itoa(matchHistory[3].Deaths) + "/" + strconv.Itoa(matchHistory[3].Assists), Inline: true},
+						{Name: getResult(matchHistory[4]) + " - " + matchHistory[4].GameMode,
+							Value: matchHistory[4].ChampionName + " " + strconv.Itoa(matchHistory[4].Kills) + "/" + strconv.Itoa(matchHistory[4].Deaths) + "/" + strconv.Itoa(matchHistory[4].Assists), Inline: true},
+						{Name: getResult(matchHistory[5]) + " - " + matchHistory[5].GameMode,
+							Value: matchHistory[5].ChampionName + " " + strconv.Itoa(matchHistory[5].Kills) + "/" + strconv.Itoa(matchHistory[5].Deaths) + "/" + strconv.Itoa(matchHistory[5].Assists), Inline: true},
+						{Name: getResult(matchHistory[6]) + " - " + matchHistory[6].GameMode,
+							Value: matchHistory[6].ChampionName + " " + strconv.Itoa(matchHistory[6].Kills) + "/" + strconv.Itoa(matchHistory[6].Deaths) + "/" + strconv.Itoa(matchHistory[6].Assists), Inline: true},
+						{Name: getResult(matchHistory[7]) + " - " + matchHistory[7].GameMode,
+							Value: matchHistory[7].ChampionName + " " + strconv.Itoa(matchHistory[7].Kills) + "/" + strconv.Itoa(matchHistory[7].Deaths) + "/" + strconv.Itoa(matchHistory[7].Assists), Inline: true},
+						{Name: getResult(matchHistory[8]) + " - " + matchHistory[8].GameMode,
+							Value: matchHistory[8].ChampionName + " " + strconv.Itoa(matchHistory[8].Kills) + "/" + strconv.Itoa(matchHistory[8].Deaths) + "/" + strconv.Itoa(matchHistory[8].Assists), Inline: true},
+						{Name: getResult(matchHistory[9]) + " - " + matchHistory[9].GameMode,
+							Value: matchHistory[9].ChampionName + " " + strconv.Itoa(matchHistory[9].Kills) + "/" + strconv.Itoa(matchHistory[9].Deaths) + "/" + strconv.Itoa(matchHistory[9].Assists), Inline: true},
 					},
 					Image: &discordgo.MessageEmbedImage{
 						URL:    "https://cdn.discordapp.com/attachments/1019324333098803340/1032455422474469407/LoLQueue.com_2.png",
