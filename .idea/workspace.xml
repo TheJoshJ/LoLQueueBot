@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Added win/loss column to the lookup command">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands/lookup.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/lookup.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

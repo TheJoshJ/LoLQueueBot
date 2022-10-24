@@ -64,7 +64,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 						{Name: "\u200B", Value: "\u200B"},
 						{Name: "Recent Matches - " + strconv.Itoa(winLoss[0]) + "/" + strconv.Itoa(winLoss[1]), Value: "\u200B"},
 						{Name: getResult(matchHistory[0]) + " - " + matchHistory[0].GameMode,
-							Value: matchHistory[0].ChampionName + "\n" + strconv.Itoa(matchHistory[0].Kills) + "/" + strconv.Itoa(matchHistory[0].Deaths) + "/" + strconv.Itoa(matchHistory[0].Assists)},
+							Value: matchHistory[0].ChampionName + "\n" + strconv.Itoa(matchHistory[0].Kills) + "/" + strconv.Itoa(matchHistory[0].Deaths) + "/" + strconv.Itoa(matchHistory[0].Assists), Inline: true},
 						{Name: getResult(matchHistory[1]) + " - " + matchHistory[1].GameMode,
 							Value: matchHistory[1].ChampionName + "\n" + strconv.Itoa(matchHistory[1].Kills) + "/" + strconv.Itoa(matchHistory[1].Deaths) + "/" + strconv.Itoa(matchHistory[1].Assists), Inline: true},
 						{Name: getResult(matchHistory[2]) + " - " + matchHistory[2].GameMode,
