@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Edited formatting of match history message">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Combined lookup &amp; match commands">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands/lookup.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/lookup.go" afterDir="false" />
     </list>
@@ -84,7 +84,8 @@
     <MESSAGE value="Added match history command" />
     <MESSAGE value="Fixed a bug that caused the build to fail" />
     <MESSAGE value="Edited formatting of match history message" />
-    <option name="LAST_COMMIT_MESSAGE" value="Edited formatting of match history message" />
+    <MESSAGE value="Combined lookup &amp; match commands" />
+    <option name="LAST_COMMIT_MESSAGE" value="Combined lookup &amp; match commands" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

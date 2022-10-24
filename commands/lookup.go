@@ -36,6 +36,10 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		champions[i].ChampionPoints = math.Round(v.ChampionPoints / 1000)
 	}
 
+	//get win/loss for the user over their last 10 games
+	var winLoss []int
+	winLoss := calcluateWinLoss(matchHistory)
+
 	//respond to the initial lookup message
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -57,6 +61,8 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 						{Name: champions[3].ChampionName, Value: strconv.Itoa(int(champions[3].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[3].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: champions[4].ChampionName, Value: strconv.Itoa(int(champions[4].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[4].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: champions[5].ChampionName, Value: strconv.Itoa(int(champions[5].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[5].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
+						{Name: "\u200B", Value: "\u200B"},
+						{Name: "Recent Matches", Value: strconv.Itoa(winLoss[0]) + "/" + strconv.Itoa(winLoss[1])},
 						{Name: "\u200B", Value: "\u200B"},
 						{Name: getResult(matchHistory[0]) + " - " + matchHistory[0].GameMode,
 							Value: matchHistory[0].ChampionName + " " + strconv.Itoa(matchHistory[0].Kills) + "/" + strconv.Itoa(matchHistory[0].Deaths) + "/" + strconv.Itoa(matchHistory[0].Assists), Inline: true},
@@ -88,4 +94,21 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			},
 		},
 	})
+}
+
+func calcluateWinLoss(matchHistory []models.Participants) []int {
+	var win int = 0
+	var loss int = 0
+	winLoss := make([]int, 0)
+
+	for _, match := range matchHistory {
+		if match.Win == true {
+			win++
+		} else {
+			loss++
+		}
+
+	}
+	winLoss[0] = win
+	winLoss[1] = loss
 }
