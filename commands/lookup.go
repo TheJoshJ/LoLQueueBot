@@ -62,7 +62,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 						{Name: champions[4].ChampionName, Value: strconv.Itoa(int(champions[4].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[4].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: champions[5].ChampionName, Value: strconv.Itoa(int(champions[5].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[5].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: "\u200B", Value: "\u200B"},
-						{Name: "Recent Matches" + strconv.Itoa(winLoss[0]) + "/" + strconv.Itoa(winLoss[1]), Value: "\u200B")},
+						{Name: "Recent Matches" + strconv.Itoa(winLoss[0]) + "/" + strconv.Itoa(winLoss[1]), Value: "\u200B"},
 						{Name: getResult(matchHistory[0]) + " - " + matchHistory[0].GameMode,
 							Value: matchHistory[0].ChampionName + "\n" + strconv.Itoa(matchHistory[0].Kills) + "/" + strconv.Itoa(matchHistory[0].Deaths) + "/" + strconv.Itoa(matchHistory[0].Assists), Inline: true},
 						{Name: getResult(matchHistory[1]) + " - " + matchHistory[1].GameMode,
