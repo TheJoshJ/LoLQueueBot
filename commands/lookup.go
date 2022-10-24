@@ -99,7 +99,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 func calcluateWinLoss(matchHistory []models.Participants) []int {
 	var win int = 0
 	var loss int = 0
-	winLoss := make([]int, 0)
+	winLoss := make([]int, 2)
 
 	for _, match := range matchHistory {
 		if match.Win == true {
