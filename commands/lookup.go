@@ -54,7 +54,6 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 						Width:  100,
 						Height: 100},
 					Fields: []*discordgo.MessageEmbedField{
-						{Name: "‎", Value: "‎"},
 						{Name: champions[0].ChampionName, Value: strconv.Itoa(int(champions[0].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[0].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: champions[1].ChampionName, Value: strconv.Itoa(int(champions[1].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[1].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
 						{Name: champions[2].ChampionName, Value: strconv.Itoa(int(champions[2].ChampionPoints)) + "k\nMastery " + strconv.Itoa(champions[2].ChampionLevel) + "‎ ‎ ‎ ‎ ‎ ‎ ‎ ", Inline: true},
@@ -82,7 +81,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 							Value: matchHistory[6].ChampionName + "\n" + strconv.Itoa(matchHistory[6].Kills) + "/" + strconv.Itoa(matchHistory[6].Deaths) + "/" + strconv.Itoa(matchHistory[6].Assists), Inline: true},
 						{Name: getResult(matchHistory[7]) + " - " + matchHistory[7].GameMode,
 							Value: matchHistory[7].ChampionName + "\n" + strconv.Itoa(matchHistory[7].Kills) + "/" + strconv.Itoa(matchHistory[7].Deaths) + "/" + strconv.Itoa(matchHistory[7].Assists), Inline: true},
-						{Name: "‎", Value: "‎"},
+						{Name: "‎"},
 						{Name: getResult(matchHistory[8]) + " - " + matchHistory[8].GameMode,
 							Value: matchHistory[8].ChampionName + "\n" + strconv.Itoa(matchHistory[8].Kills) + "/" + strconv.Itoa(matchHistory[8].Deaths) + "/" + strconv.Itoa(matchHistory[8].Assists), Inline: true},
 						{Name: getResult(matchHistory[9]) + " - " + matchHistory[9].GameMode,
