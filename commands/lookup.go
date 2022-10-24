@@ -41,7 +41,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	winLoss = calcluateWinLoss(matchHistory)
 
 	//respond to the initial lookup message
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+	err = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
 			Embeds: []*discordgo.MessageEmbed{
@@ -97,11 +97,14 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			},
 		},
 	})
+	if err != nil {
+		log.Printf("error responding to /lookup request, %s", err)
+	}
 }
 
 func calcluateWinLoss(matchHistory []models.Participants) []int {
-	var win int = 0
-	var loss int = 0
+	var win = 0
+	var loss = 0
 	winLoss := make([]int, 2)
 
 	for _, match := range matchHistory {
