@@ -38,7 +38,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	//get win/loss for the user over their last 10 games
 	var winLoss []int
-	winLoss := calcluateWinLoss(matchHistory)
+	winLoss = calcluateWinLoss(matchHistory)
 
 	//respond to the initial lookup message
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
