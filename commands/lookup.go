@@ -11,7 +11,7 @@ import (
 )
 
 func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	matchHistory := make([]models.Participants, 20)
+	matchHistory := make([]models.MatchDataResp, 10)
 	var summoner models.LookupResponse
 	var options = make(map[string]interface{})
 	for _, option := range i.ApplicationCommandData().Options {
@@ -38,7 +38,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	//get win/loss for the user over their last 10 games
 	var winLoss []int
-	winLoss = calcluateWinLoss(matchHistory)
+	winLoss = calculateWinLoss(matchHistory)
 
 	//respond to the initial lookup message
 	err = s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
@@ -97,7 +97,7 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 }
 
-func calcluateWinLoss(matchHistory []models.Participants) []int {
+func calculateWinLoss(matchHistory []models.MatchDataResp) []int {
 	var win = 0
 	var loss = 0
 	winLoss := make([]int, 2)

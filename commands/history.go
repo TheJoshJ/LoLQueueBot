@@ -10,7 +10,7 @@ import (
 )
 
 func Match(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	matchHistory := make([]models.Participants, 20)
+	matchHistory := make([]models.MatchDataResp, 20)
 	var summoner models.LookupResponse
 	var options = make(map[string]interface{})
 	for _, option := range i.ApplicationCommandData().Options {
@@ -75,7 +75,7 @@ func Match(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	})
 }
 
-func getResult(participants models.Participants) string {
+func getResult(participants models.MatchDataResp) string {
 	if participants.Win == true {
 		return "Win"
 	}

@@ -55,6 +55,16 @@ type MatchData struct {
 	} `json:"info"`
 }
 
+type MatchDataResp struct {
+	GameID       string `json:"gameID"`
+	GameMode     string `json:"gameMode"`
+	ChampionName string `json:"championName"`
+	Assists      int    `json:"assists"`
+	Deaths       int    `json:"deaths"`
+	Kills        int    `json:"kills"`
+	Win          bool   `json:"win"`
+}
+
 type Participants struct {
 	GameMode                       string `json:"gameMode"`
 	Assists                        int    `json:"assists"`

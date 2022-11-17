@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Added win/loss column to the lookup command">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Fixed lookup to work with current LoLQueue API update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/history.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/history.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands/lookup.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands/lookup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/match_get.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/match_get.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/matchData.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/matchData.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/profile.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/profile.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +24,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../../Program Files/Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -31,7 +36,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2EgfmxKsAOMR7TJIk085M7JTKVq" />
   <component name="ProjectViewState">
@@ -51,7 +56,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/joshjones&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/12566&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
@@ -85,7 +90,8 @@
     <MESSAGE value="Edited formatting of match history message" />
     <MESSAGE value="Combined lookup &amp; match commands" />
     <MESSAGE value="Added win/loss column to the lookup command" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added win/loss column to the lookup command" />
+    <MESSAGE value="Fixed lookup to work with current LoLQueue API update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed lookup to work with current LoLQueue API update" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
