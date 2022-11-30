@@ -18,9 +18,13 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		options[option.Name] = option.Value
 	}
 
+	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{}})
+
 	//convert it to match the profile struct
 	var params models.LookupGet
-	err := mapstructure.Decode(options, &params)
+	err = mapstructure.Decode(options, &params)
 	if err != nil {
 		log.Print(err)
 	}
