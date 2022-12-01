@@ -1,5 +1,31 @@
 package models
 
+type LookupGet struct {
+	Username string `json:"username"`
+	Server   string `json:"server"`
+}
+type LookupResponse struct {
+	Username      string            `json:"username"`
+	Tier          string            `json:"tier"`
+	Rank          string            `json:"rank"`
+	Level         int               `json:"level"`
+	ProfileIconId int               `json:"profileIconId"`
+	Champions     []ChampionMastery `json:"champions"`
+	Wins          int               `json:"wins"`
+	Losses        int               `json:"losses"`
+}
+type ChampionMastery struct {
+	ChampionName                 string
+	ChampionId                   int     `json:"championId"`
+	ChampionLevel                int     `json:"championLevel"`
+	ChampionPoints               float64 `json:"championPoints"`
+	LastPlayTime                 int64   `json:"lastPlayTime"`
+	ChampionPointsSinceLastLevel int     `json:"championPointsSinceLastLevel"`
+	ChampionPointsUntilNextLevel int     `json:"championPointsUntilNextLevel"`
+	ChestGranted                 bool    `json:"chestGranted"`
+	TokensEarned                 int     `json:"tokensEarned"`
+	SummonerId                   string  `json:"summonerId"`
+}
 type MatchData struct {
 	Metadata struct {
 		DataVersion  string   `json:"dataVersion"`
@@ -54,7 +80,6 @@ type MatchData struct {
 		TournamentCode string `json:"tournamentCode"`
 	} `json:"info"`
 }
-
 type MatchDataResp struct {
 	GameID       string `json:"gameID"`
 	GameMode     string `json:"gameMode"`
@@ -64,7 +89,6 @@ type MatchDataResp struct {
 	Kills        int    `json:"kills"`
 	Win          bool   `json:"win"`
 }
-
 type Participants struct {
 	GameMode                       string `json:"gameMode"`
 	Assists                        int    `json:"assists"`
@@ -173,4 +197,16 @@ type Participants struct {
 	WardsKilled                    int    `json:"wardsKilled"`
 	WardsPlaced                    int    `json:"wardsPlaced"`
 	Win                            bool   `json:"win"`
+}
+type Profile struct {
+	DiscordID string `json:"discordid"`
+	Username  string `json:"username"`
+	Server    string `json:"server"`
+}
+type Command struct {
+	DiscordID string `json: "id"`
+	Gamemode  string `json: "gamemode"`
+	Primary   string `json: "primary"`
+	Secondary string `json: "secondary"`
+	Fill      string `json: "fill"`
 }
