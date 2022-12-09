@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Updated setup command">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Fixed issue with /setup command options not being sent to API">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +95,8 @@
     <MESSAGE value="Added initial interaction data to keep the bot from timing out while waiting for API requests to complete" />
     <MESSAGE value="Reformatted entire file structure" />
     <MESSAGE value="Updated setup command" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated setup command" />
+    <MESSAGE value="Fixed issue with /setup command options not being sent to API" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with /setup command options not being sent to API" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
