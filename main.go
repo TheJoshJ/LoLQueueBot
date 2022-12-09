@@ -721,7 +721,7 @@ func Queue(s *discordgo.Session, i *discordgo.InteractionCreate) {
 }
 
 func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	var cmdErr []string
+	var res []string
 
 	//process the command within the interaction
 	var options = make(map[string]interface{})
@@ -729,13 +729,9 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		options[option.Name] = option.Value
 	}
 
-	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{}})
-
 	//convert it to match the profile struct
 	var profile models.Profile
-	err = mapstructure.Decode(options, &profile)
+	err := mapstructure.Decode(options, &profile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -748,37 +744,29 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	//send the post request
 	response := handlers.Setup(profile)
 
+	log.Println(response)
+
 	//check the response
 	if response == 208 {
-		cmdErr = append(cmdErr, "User already exists! To update your information, use '/update' instead!")
+		res = append(res, "User already exists! To update your information, use '/update' instead!")
 	} else if response == 404 || response == 500 {
-		cmdErr = append(cmdErr, "Error posting the command to the API layer, contact an admin if this issue persists.")
-	} else if response != 200 {
-		cmdErr = append(cmdErr, "Unknown response. Please contact an admin with what you did and how to recreate it.")
+		res = append(res, "Error posting the command to the API layer, contact an admin if this issue persists.")
+	} else if response != 201 {
+		res = append(res, "Unknown response. Please contact an admin with what you did and how to recreate it.")
+	} else {
+		res = append(res, fmt.Sprintf("You have updated your profile!\n> IGN: %s\n> Server: %s\n> Discord Username: %s\n Use /update to update any incorrect information!", profile.RiotUsername, profile.RiotServer, profile.DiscordUsername))
 	}
 
 	//convert the slice of err to a string
-	cmdString := strings.Join(cmdErr[:], ">\n")
+	resString := strings.Join(res[:], ">\n")
+	log.Println(resString)
 
 	//reply accordingly
-	if cmdString != "" {
-		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-			Type: discordgo.InteractionResponseChannelMessageWithSource,
-			Data: &discordgo.InteractionResponseData{
-				Flags:   discordgo.MessageFlagsEphemeral,
-				Content: fmt.Sprintf(cmdString),
-			},
-		})
-	} else {
-		{
-			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				Type: discordgo.InteractionResponseChannelMessageWithSource,
-				Data: &discordgo.InteractionResponseData{
-					Flags:   discordgo.MessageFlagsEphemeral,
-					Content: fmt.Sprintf("You have updated your profile!\n> IGN: %s\n> Server: %s\n> Discord Username: %s\n Use /update to update any incorrect information!", profile.RiotUsername, profile.RiotServer, profile.DiscordUsername),
-				},
-			})
-
-		}
-	}
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Content: fmt.Sprintf(resString),
+		},
+	})
 }
