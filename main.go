@@ -757,10 +757,10 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		res = append(res, "User already exists! To update your information, use '/update' instead!")
 	} else if response == 500 {
 		res = append(res, "Error posting the command to the API layer, contact an admin if this issue persists.")
+	} else if response == 404 {
+		res = append(res, "Invalid Riot Username - please double check that your username is correct and try again.")
 	} else if response != 201 {
 		res = append(res, "Unknown response. Please contact an admin with what you did and how to recreate it.")
-	} else if response != 404 {
-		res = append(res, "Invalid Riot Username - please double check that your username is correct and try again.")
 	} else {
 		res = append(res, fmt.Sprintf("You have updated your profile!\n> IGN: %s\n> Server: %s\n> Discord Username: %s\n Use /update to update any incorrect information!", profile.RiotUsername, profile.RiotServer, profile.DiscordUsername))
 	}
