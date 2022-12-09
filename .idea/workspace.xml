@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Fixed 409 error in response logic for /setup">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Fixed error with /lookup function not responding">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +102,8 @@
     <MESSAGE value="Small fix for 404 error in /setup" />
     <MESSAGE value="Added 209 conflict error to setup handler" />
     <MESSAGE value="Fixed 409 error in response logic for /setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed 409 error in response logic for /setup" />
+    <MESSAGE value="Fixed error with /lookup function not responding" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed error with /lookup function not responding" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

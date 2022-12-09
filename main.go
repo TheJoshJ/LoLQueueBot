@@ -3,6 +3,7 @@ package main
 import (
 	"discord-test/handlers"
 	"discord-test/models"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
@@ -10,6 +11,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"log"
 	"math"
+	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
@@ -331,8 +333,8 @@ var (
 			Description: "Close your current lobby",
 		},
 		{
-			Name:        "pos",
-			Description: "Check your current position in queue",
+			Name:        "profile",
+			Description: "View your current profile",
 		},
 	}
 
@@ -346,8 +348,8 @@ var (
 		"queue": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Queue(s, i)
 		},
-		"pos": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-			Position(s, i)
+		"profile": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			Profile(s, i)
 		},
 		"setup": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Setup(s, i)
@@ -556,9 +558,6 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	champions := summoner.Champions
 	matchHistory = handlers.MatchLookup(params)
 
-	log.Println(summoner)
-	log.Println(matchHistory)
-
 	//round the champion points to the nearest 1000
 	for i, v := range summoner.Champions {
 		champions[i].ChampionPoints = math.Round(v.ChampionPoints / 1000)
@@ -625,16 +624,31 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 }
 
-func Position(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	guild, err := s.Guild(i.GuildID)
+func Profile(s *discordgo.Session, i *discordgo.InteractionCreate) {
+
+	r, err := http.Get("https://api.lolqueue.com/user/" + i.User.ID)
 	if err != nil {
-		return
+		log.Printf("Error calling user endpoing on riot API %v", err)
+	}
+	var response models.UserLookupResponse
+	var respString string
+	if r.StatusCode != 404 {
+		err := json.NewDecoder(r.Body).Decode(&response)
+		if err != nil {
+			log.Printf("error decoding response into &response for /profile command \n%v", err)
+			respString = "There was an error retrieving your profile information\nIf this problem persists, please inform a server admin."
+		}
+		if respString == "" {
+			respString = fmt.Sprintf(">Servers %v\n>LoL Username%v\n>Region%v", response.Servers, response.RiotUsername, response.RiotServer)
+		}
+	} else {
+		respString = "Unable to find your profile.\nHave you set up an profile yet?\nUse the /setup command to create a profile"
 	}
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
 			Flags:   discordgo.MessageFlagsEphemeral,
-			Content: fmt.Sprintf(guild.Name),
+			Content: fmt.Sprintf(respString),
 		},
 	})
 }

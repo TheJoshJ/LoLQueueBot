@@ -4,6 +4,8 @@ type LookupGet struct {
 	Username string `json:"username"`
 	Server   string `json:"server"`
 }
+
+// LookupResponse - Riot user lookup
 type LookupResponse struct {
 	Username      string            `json:"username"`
 	Tier          string            `json:"tier"`
@@ -14,6 +16,14 @@ type LookupResponse struct {
 	Wins          int               `json:"wins"`
 	Losses        int               `json:"losses"`
 }
+
+// UserLookupResponse - lolQueue user lookup
+type UserLookupResponse struct {
+	Servers      []string `json:"servers"`
+	RiotUsername string   `json:"riotUsername"`
+	RiotServer   string   `json:"riotServer"`
+}
+
 type ChampionMastery struct {
 	ChampionName                 string
 	ChampionId                   int     `json:"championId"`
