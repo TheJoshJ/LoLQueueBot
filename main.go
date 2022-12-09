@@ -444,6 +444,18 @@ func DiscordRemoveCommands() {
 }
 
 //discord bot commands
+func CreateLobby(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Content: fmt.Sprintf("The lobby has been created."),
+		},
+	})
+	newChan, _ := s.GuildChannelCreate(i.GuildID, "Test", 2)
+	s.ChannelMessageSend(newChan.ID, fmt.Sprintf("%s", i.Member.Mention()))
+}
+
 func CloseLobby(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -524,25 +536,6 @@ func Match(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	})
 }
 
-func getResult(participants models.MatchDataResp) string {
-	if participants.Win == true {
-		return "Win"
-	}
-	return "Loss"
-}
-
-func CreateLobby(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{
-			Flags:   discordgo.MessageFlagsEphemeral,
-			Content: fmt.Sprintf("The lobby has been created."),
-		},
-	})
-	newChan, _ := s.GuildChannelCreate(i.GuildID, "Test", 2)
-	s.ChannelMessageSend(newChan.ID, fmt.Sprintf("%s", i.Member.Mention()))
-}
-
 func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	matchHistory := make([]models.MatchDataResp, 10)
 	var summoner models.LookupResponse
@@ -551,13 +544,9 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		options[option.Name] = option.Value
 	}
 
-	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
-		Data: &discordgo.InteractionResponseData{}})
-
 	//convert it to match the profile struct
 	var params models.LookupGet
-	err = mapstructure.Decode(options, &params)
+	err := mapstructure.Decode(options, &params)
 	if err != nil {
 		log.Print(err)
 	}
@@ -566,7 +555,9 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	summoner = handlers.ProfileLookup(params)
 	champions := summoner.Champions
 	matchHistory = handlers.MatchLookup(params)
-	summoner = handlers.ProfileLookup(params)
+
+	log.Println(summoner)
+	log.Println(matchHistory)
 
 	//round the champion points to the nearest 1000
 	for i, v := range summoner.Champions {
@@ -632,25 +623,6 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	if err != nil {
 		log.Printf("error responding to /lookup request, %s", err)
 	}
-}
-
-func calculateWinLoss(matchHistory []models.MatchDataResp) []int {
-	var win = 0
-	var loss = 0
-	winLoss := make([]int, 2)
-
-	for _, match := range matchHistory {
-		if match.Win == true {
-			win++
-		} else {
-			loss++
-		}
-
-	}
-	winLoss[0] = win
-	winLoss[1] = loss
-
-	return winLoss
 }
 
 func Position(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -760,7 +732,7 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	} else if response == 404 {
 		res = append(res, "Invalid Riot Username - please double check that your username is correct and try again.")
 	} else if response == 409 {
-		res = append(res, "You've added your discord account to this server!\nYour LoL account doesn't match the existing account we have a record of though so it was not updated.\nPlease use /update to update your LoL account username or /profile to view your current profile.")
+		res = append(res, "You've added your discord account to this server!\n>Your LoL account doesn't match the existing account we have a record of though, so it was not updated.\n>Please use /update to update your LoL account username or /profile to view your current profile.")
 	} else if response != 201 {
 		res = append(res, "Unknown response. Please contact an admin with what you did and how to recreate it.")
 	} else {
@@ -779,4 +751,30 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Content: fmt.Sprintf(resString),
 		},
 	})
+}
+
+//support functions
+func getResult(participants models.MatchDataResp) string {
+	if participants.Win == true {
+		return "Win"
+	}
+	return "Loss"
+}
+func calculateWinLoss(matchHistory []models.MatchDataResp) []int {
+	var win = 0
+	var loss = 0
+	winLoss := make([]int, 2)
+
+	for _, match := range matchHistory {
+		if match.Win == true {
+			win++
+		} else {
+			loss++
+		}
+
+	}
+	winLoss[0] = win
+	winLoss[1] = loss
+
+	return winLoss
 }

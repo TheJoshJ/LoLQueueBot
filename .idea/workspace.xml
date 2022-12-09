@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Added 209 conflict error to setup handler">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Fixed 409 error in response logic for /setup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
@@ -100,7 +100,8 @@
     <MESSAGE value="Added 404 error response for /setup command" />
     <MESSAGE value="Small fix for 404 error in /setup" />
     <MESSAGE value="Added 209 conflict error to setup handler" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 209 conflict error to setup handler" />
+    <MESSAGE value="Fixed 409 error in response logic for /setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed 409 error in response logic for /setup" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
