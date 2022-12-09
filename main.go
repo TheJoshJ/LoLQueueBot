@@ -730,16 +730,22 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 
 	//convert it to match the profile struct
-	var profile models.Profile
-	err := mapstructure.Decode(options, &profile)
+	var args models.SetupCmd
+	err := mapstructure.Decode(options, &args)
 	if err != nil {
 		log.Fatal(err)
 	}
-	profile.DiscordID = i.Member.User.ID
-	profile.DiscordUsername = i.Member.User.Username
-	profile.DiscordServerID = i.GuildID
 	g, _ := s.Guild(i.GuildID)
-	profile.DiscordServerName = g.Name
+	profile := models.Profile{
+		RiotUsername:      args.Username,
+		RiotServer:        args.Server,
+		DiscordID:         i.Member.User.ID,
+		DiscordUsername:   i.Member.User.Username,
+		DiscordServerID:   i.GuildID,
+		DiscordServerName: g.Name,
+	}
+
+	log.Println(profile)
 
 	//send the post request
 	response := handlers.Setup(profile)

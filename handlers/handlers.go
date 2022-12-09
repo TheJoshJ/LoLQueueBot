@@ -77,6 +77,7 @@ func Queue(args models.Command) *http.Response {
 
 func Setup(profile models.Profile) int {
 
+	log.Printf("this is profile from within the setup function\n%#v", profile)
 	data, err := json.Marshal(profile)
 	if err != nil {
 		log.Println("error marshalling profile data.")

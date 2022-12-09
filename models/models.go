@@ -207,6 +207,11 @@ type Profile struct {
 	DiscordServerName string `json:"discordServerName"`
 }
 
+type SetupCmd struct {
+	Username string
+	Server   string
+}
+
 type Command struct {
 	DiscordID string `json:"id"`
 	Gamemode  string `json:"gamemode"`
