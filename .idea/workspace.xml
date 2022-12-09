@@ -4,35 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Added initial interaction data to keep the bot from timing out while waiting for API requests to complete">
-      <change afterPath="$PROJECT_DIR$/handlers/handlers.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Reformatted entire file structure">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/close.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/find.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/history.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/leave.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/lobby.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/lookup.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/pos.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/queue.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/setup.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/lookup_get.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/match_get.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/ping.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/queue_post.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/setup_post.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initializers/discordInit.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/initializers/redisInit.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/handlers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/lookup.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/matchData.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/profile.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/queue.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/variables/GlobalVars.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +34,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2EgfmxKsAOMR7TJIk085M7JTKVq" />
   <component name="ProjectViewState">
@@ -120,7 +96,8 @@
     <MESSAGE value="Added win/loss column to the lookup command" />
     <MESSAGE value="Fixed lookup to work with current LoLQueue API update" />
     <MESSAGE value="Added initial interaction data to keep the bot from timing out while waiting for API requests to complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added initial interaction data to keep the bot from timing out while waiting for API requests to complete" />
+    <MESSAGE value="Reformatted entire file structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reformatted entire file structure" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

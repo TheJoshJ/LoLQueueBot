@@ -4,10 +4,8 @@ import (
 	"bytes"
 	"discord-test/models"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 )
 
 var (
@@ -77,22 +75,17 @@ func Queue(args models.Command) *http.Response {
 	return response
 }
 
-func Setup(profile models.Profile) []byte {
+func Setup(profile models.Profile) int {
 
-	data := url.Values{}
-	data.Add("server", profile.Server)
-	data.Add("username", profile.Username)
-	data.Add("discordid", profile.DiscordID)
+	data, err := json.Marshal(profile)
+	if err != nil {
+		log.Println("error marshalling profile data.")
+	}
 
-	resp, err := http.PostForm("https://api.lolqueue.com/user", data)
+	resp, err := http.Post("https://api.lolqueue.com/user", "application/json", bytes.NewBuffer(data))
 	if err != nil {
 		log.Printf("fatal err 1 %v", err)
 	}
 
-	response, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Printf("fatal err 3 %v", err)
-	}
-
-	return response
+	return resp.StatusCode
 }

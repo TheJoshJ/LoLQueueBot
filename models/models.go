@@ -199,14 +199,18 @@ type Participants struct {
 	Win                            bool   `json:"win"`
 }
 type Profile struct {
-	DiscordID string `json:"discordid"`
-	Username  string `json:"username"`
-	Server    string `json:"server"`
+	DiscordUsername   string `json:"discordUsername"`
+	RiotUsername      string `json:"riotUsername"`
+	RiotServer        string `json:"riotServer"`
+	DiscordID         string `json:"discordID"`
+	DiscordServerID   string `json:"discordServerID"`
+	DiscordServerName string `json:"discordServerName"`
 }
+
 type Command struct {
-	DiscordID string `json: "id"`
-	Gamemode  string `json: "gamemode"`
-	Primary   string `json: "primary"`
-	Secondary string `json: "secondary"`
-	Fill      string `json: "fill"`
+	DiscordID string `json:"id"`
+	Gamemode  string `json:"gamemode"`
+	Primary   string `json:"primary"`
+	Secondary string `json:"secondary"`
+	Fill      string `json:"fill"`
 }

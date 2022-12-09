@@ -347,7 +347,7 @@ var (
 			Queue(s, i)
 		},
 		"pos": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-			Position()
+			Position(s, i)
 		},
 		"setup": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Setup(s, i)
@@ -653,8 +653,18 @@ func calculateWinLoss(matchHistory []models.MatchDataResp) []int {
 	return winLoss
 }
 
-func Position() {
-	handlers.Ping()
+func Position(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	guild, err := s.Guild(i.GuildID)
+	if err != nil {
+		return
+	}
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Content: fmt.Sprintf(guild.Name),
+		},
+	})
 }
 
 func Queue(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -719,27 +729,39 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		options[option.Name] = option.Value
 	}
 
+	err := s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{}})
+
 	//convert it to match the profile struct
 	var profile models.Profile
-	err := mapstructure.Decode(options, &profile)
+	err = mapstructure.Decode(options, &profile)
 	if err != nil {
 		log.Fatal(err)
 	}
 	profile.DiscordID = i.Member.User.ID
+	profile.DiscordUsername = i.Member.User.Username
+	profile.DiscordServerID = i.GuildID
+	g, _ := s.Guild(i.GuildID)
+	profile.DiscordServerName = g.Name
 
 	//send the post request
-	handlers.Setup(profile)
+	response := handlers.Setup(profile)
 
 	//check the response
-	//if response.StatusCode != 200 {
-	//	cmdErr = append(cmdErr, "Error posting the command to the API layer")
-	//}
+	if response == 208 {
+		cmdErr = append(cmdErr, "User already exists! To update your information, use '/update' instead!")
+	} else if response == 404 || response == 500 {
+		cmdErr = append(cmdErr, "Error posting the command to the API layer, contact an admin if this issue persists.")
+	} else if response != 200 {
+		cmdErr = append(cmdErr, "Unknown response. Please contact an admin with what you did and how to recreate it.")
+	}
 
 	//convert the slice of err to a string
 	cmdString := strings.Join(cmdErr[:], ">\n")
 
 	//reply accordingly
-	if cmdErr != nil {
+	if cmdString != "" {
 		s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 			Type: discordgo.InteractionResponseChannelMessageWithSource,
 			Data: &discordgo.InteractionResponseData{
@@ -753,7 +775,7 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
 					Flags:   discordgo.MessageFlagsEphemeral,
-					Content: fmt.Sprintf("You have updated your profile!"),
+					Content: fmt.Sprintf("You have updated your profile!\n> IGN: %s\n> Server: %s\n> Discord Username: %s\n Use /update to update any incorrect information!", profile.RiotUsername, profile.RiotServer, profile.DiscordUsername),
 				},
 			})
 
