@@ -759,6 +759,8 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		res = append(res, "Error posting the command to the API layer, contact an admin if this issue persists.")
 	} else if response == 404 {
 		res = append(res, "Invalid Riot Username - please double check that your username is correct and try again.")
+	} else if response == 209 {
+		res = append(res, "You've added your discord account to this server!\nYour LoL account doesn't match the existing account we have a record of though so it was not updated.\nPlease use /update to update your LoL account username or /profile to view your current profile.")
 	} else if response != 201 {
 		res = append(res, "Unknown response. Please contact an admin with what you did and how to recreate it.")
 	} else {

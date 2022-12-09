@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Fixed issue with /setup command options not being sent to API">
+    <list default="true" id="9c46487e-ceec-46a8-a8fe-fd0a341c900c" name="Changes" comment="Small fix for 404 error in /setup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
@@ -97,7 +97,9 @@
     <MESSAGE value="Reformatted entire file structure" />
     <MESSAGE value="Updated setup command" />
     <MESSAGE value="Fixed issue with /setup command options not being sent to API" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with /setup command options not being sent to API" />
+    <MESSAGE value="Added 404 error response for /setup command" />
+    <MESSAGE value="Small fix for 404 error in /setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small fix for 404 error in /setup" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
