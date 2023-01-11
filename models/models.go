@@ -5,6 +5,13 @@ type LookupGet struct {
 	Server   string `json:"server"`
 }
 
+type ProfileUpdate struct {
+	RiotUsername    string `json:"riotUsername"`
+	RiotServer      string `json:"riotServer"`
+	DiscordID       string `json:"discordID"`
+	DiscordServerID string `json:"discordServerID"`
+}
+
 // LookupResponse - Riot user lookup
 type LookupResponse struct {
 	Username      string            `json:"username"`

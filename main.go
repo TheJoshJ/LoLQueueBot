@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"discord-test/handlers"
 	"discord-test/models"
 	"encoding/json"
@@ -32,106 +33,8 @@ var (
 
 	Commands = []*discordgo.ApplicationCommand{
 		{
-			Name:        "queue",
-			Description: "Queue up to be put with a team",
-			Options: []*discordgo.ApplicationCommandOption{
-				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "gamemode",
-					Description: "select which gamemode you are wanting to play",
-					Choices: []*discordgo.ApplicationCommandOptionChoice{
-						{
-							Name:  "normal",
-							Value: "normal",
-						},
-						{
-							Name:  "aram",
-							Value: "aram",
-						},
-						{
-							Name:  "rotating",
-							Value: "rotating",
-						},
-					},
-					Required: true,
-				},
-				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "primary",
-					Description: "Select your primary position",
-					Choices: []*discordgo.ApplicationCommandOptionChoice{
-						{
-							Name:  "top",
-							Value: "top",
-						},
-						{
-							Name:  "jungle",
-							Value: "jungle",
-						},
-						{
-							Name:  "mid",
-							Value: "mid",
-						},
-						{
-							Name:  "bot",
-							Value: "bot",
-						},
-						{
-							Name:  "support",
-							Value: "support",
-						},
-					},
-					Required: true,
-				},
-				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "secondary",
-					Description: "Select your secondary position",
-					Choices: []*discordgo.ApplicationCommandOptionChoice{
-						{
-							Name:  "top",
-							Value: "top",
-						},
-						{
-							Name:  "jungle",
-							Value: "jungle",
-						},
-						{
-							Name:  "mid",
-							Value: "mid",
-						},
-						{
-							Name:  "bot",
-							Value: "bot",
-						},
-						{
-							Name:  "support",
-							Value: "support",
-						},
-					},
-					Required: true,
-				},
-				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "fill",
-					Description: "Would you like to fill? true/false",
-					Choices: []*discordgo.ApplicationCommandOptionChoice{
-						{
-							Name:  "yes",
-							Value: "yes",
-						},
-						{
-							Name:  "no",
-							Value: "no",
-						},
-					},
-					Required: true,
-				},
-			},
-		},
-		{
-			Name:        "setup",
-			Description: "Set up your profile before you queue up",
+			Name:        "update",
+			Description: "Update your profile",
 			Options: []*discordgo.ApplicationCommandOption{
 
 				{
@@ -193,6 +96,79 @@ var (
 					Required: true,
 				},
 			},
+		},
+		{
+			Name:        "setup",
+			Description: "Set up your profile to track your stats",
+			Options: []*discordgo.ApplicationCommandOption{
+
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "username",
+					Description: "Your display name in League of Legends",
+					Required:    true,
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "server",
+					Description: "select which server you play on",
+					Choices: []*discordgo.ApplicationCommandOptionChoice{
+						{
+							Name:  "NA",
+							Value: "NA",
+						},
+						{
+							Name:  "EUNE",
+							Value: "EUNE",
+						},
+						{
+							Name:  "EUW",
+							Value: "EUW",
+						},
+						{
+							Name:  "LAN",
+							Value: "LAN",
+						},
+						{
+							Name:  "LAS",
+							Value: "LAS",
+						},
+						{
+							Name:  "OCE",
+							Value: "OCE",
+						},
+						{
+							Name:  "BR",
+							Value: "BR",
+						},
+						{
+							Name:  "JP",
+							Value: "JP",
+						},
+						{
+							Name:  "KR",
+							Value: "KR",
+						},
+						{
+							Name:  "TR",
+							Value: "TR",
+						},
+						{
+							Name:  "RU",
+							Value: "RU",
+						},
+					},
+					Required: true,
+				},
+			},
+		},
+		{
+			Name:        "profile",
+			Description: "View your current profile",
+		},
+		{
+			Name:        "retire",
+			Description: "Remove your profile from the servers leaderboard",
 		},
 		{
 			Name:        "lookup",
@@ -332,10 +308,6 @@ var (
 			Name:        "close",
 			Description: "Close your current lobby",
 		},
-		{
-			Name:        "profile",
-			Description: "View your current profile",
-		},
 	}
 
 	CommandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
@@ -359,6 +331,12 @@ var (
 		},
 		"match": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			Match(s, i)
+		},
+		"update": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			Update(s, i)
+		},
+		"retire": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
+			Delete(s, i)
 		},
 	}
 )
@@ -625,21 +603,24 @@ func Lookup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 }
 
 func Profile(s *discordgo.Session, i *discordgo.InteractionCreate) {
-
-	r, err := http.Get("https://api.lolqueue.com/user/" + i.User.ID)
+	discordID := i.Member.User.ID
+	log.Println(i.Member.User.ID)
+	r, err := http.Get("https://api.lolqueue.com/v1/user/" + discordID)
 	if err != nil {
 		log.Printf("Error calling user endpoing on riot API %v", err)
 	}
+	log.Println(r.Body)
 	var response models.UserLookupResponse
 	var respString string
-	if r.StatusCode != 404 {
+	if r.StatusCode == 200 {
 		err := json.NewDecoder(r.Body).Decode(&response)
+		log.Println(response)
 		if err != nil {
 			log.Printf("error decoding response into &response for /profile command \n%v", err)
 			respString = "There was an error retrieving your profile information\nIf this problem persists, please inform a server admin."
 		}
 		if respString == "" {
-			respString = fmt.Sprintf(">Servers %v\n>LoL Username%v\n>Region%v", response.Servers, response.RiotUsername, response.RiotServer)
+			respString = fmt.Sprintf("> Servers: %v\n> LoL Username: %v\n> Region: %v", strings.Join(response.Servers, ", "), response.RiotUsername, response.RiotServer)
 		}
 	} else {
 		respString = "Unable to find your profile.\nHave you set up an profile yet?\nUse the /setup command to create a profile"
@@ -734,9 +715,17 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	log.Println(profile)
 
 	//send the post request
-	response := handlers.Setup(profile)
+	data, err := json.Marshal(profile)
+	if err != nil {
+		log.Println("error marshalling profile data.")
+	}
 
-	log.Println(response)
+	resp, err := http.Post("https://api.lolqueue.com/v1/user", "application/json", bytes.NewBuffer(data))
+	if err != nil {
+		log.Printf("error sending post request to lolqueue.com when creating a new user \n%v", err)
+	}
+
+	response := resp.StatusCode
 
 	//check the response
 	if response == 208 {
@@ -746,7 +735,7 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	} else if response == 404 {
 		res = append(res, "Invalid Riot Username - please double check that your username is correct and try again.")
 	} else if response == 409 {
-		res = append(res, "You've added your discord account to this server!\n>Your LoL account doesn't match the existing account we have a record of though, so it was not updated.\n>Please use /update to update your LoL account username or /profile to view your current profile.")
+		res = append(res, "You've added your discord account to this server!\n> Your LoL account doesn't match the existing account we have a record of though, so it was not updated.\n> Please use /update to update your LoL account username or /profile to view your current profile.")
 	} else if response != 201 {
 		res = append(res, "Unknown response. Please contact an admin with what you did and how to recreate it.")
 	} else {
@@ -763,6 +752,89 @@ func Setup(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		Data: &discordgo.InteractionResponseData{
 			Flags:   discordgo.MessageFlagsEphemeral,
 			Content: fmt.Sprintf(resString),
+		},
+	})
+}
+
+func Update(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	var options = make(map[string]interface{})
+	for _, option := range i.ApplicationCommandData().Options {
+		options[option.Name] = option.Value
+	}
+
+	//convert it to match the profile struct
+	var args models.SetupCmd
+	err := mapstructure.Decode(options, &args)
+	if err != nil {
+		log.Fatal(err)
+	}
+	update := models.ProfileUpdate{
+		RiotUsername:    args.Username,
+		RiotServer:      args.Server,
+		DiscordID:       i.Member.User.ID,
+		DiscordServerID: i.GuildID,
+	}
+
+	body, _ := json.Marshal(&update)
+
+	req, err := http.NewRequest("PUT", "api.lolqueue.com/v1/user", bytes.NewBuffer(body))
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	var response string
+	if resp.StatusCode == 400 || resp.StatusCode == 500 {
+		response = "Unable to execute command. If the issue persists, please alert an admin."
+	} else if resp.StatusCode == 404 {
+		response = "A riot username could not be found on that server. Please update and try again."
+	} else if resp.StatusCode == 409 {
+		response = "You have not yet created a profile! First do /setup to create a profile."
+	} else if resp.StatusCode == 200 {
+		response = fmt.Sprintf("You have updated your profile!\n> IGN: %s\n> Server: %s\nUse /update to update any incorrect information!", update.RiotUsername, update.RiotServer)
+	} else {
+		response = "Unable to execute command. If the issue persists, please alert an admin."
+	}
+
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Content: fmt.Sprintf(response),
+		},
+	})
+}
+
+func Delete(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	var response string
+	var URL string
+
+	URL = fmt.Sprintf("api.lolqueue.com/v1/user/%v?serverid=%v", i.Member.User.ID, i.GuildID)
+	req, err := http.NewRequest("DELETE", URL, nil)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		response = "Uh oh! Our servers seem to not want to let you retire at this moment!\nIf this issue persists, please contact an admin!"
+	} else {
+		response = fmt.Sprintf("%v... we are sad to see you go but nevertheless, we have processed your retirement and you are free to leave.\nHave fun in the retirement home.", i.User.Username)
+	}
+
+	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			Flags:   discordgo.MessageFlagsEphemeral,
+			Content: response,
 		},
 	})
 }
